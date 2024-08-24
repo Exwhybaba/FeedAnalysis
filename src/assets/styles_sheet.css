@@ -1,0 +1,112 @@
+/* General Body Styles */
+body {
+    background-color: rgb(230, 224, 224);
+    margin: 0; /* Ensure no default margin is applied */
+    padding: 0; /* Ensure no default padding is applied */
+}
+
+/* Top Bar Styles */
+#topbar {
+    background-color: lightseagreen;
+    width: 1085px; 
+    height: 90px;
+    border: solid 1px white;
+    box-shadow: 5px 5px 5px 5px gray;
+    margin-bottom: 10px; 
+    position: relative;
+    left: 5px;
+}
+
+/* Sidebar Styles */
+#sidebar {
+    width: 160px;
+    margin-left: -5px;
+    height: 579px;
+    background-color: white;
+    border: solid 1px white;
+    box-shadow: 5px 5px 5px 5px gray;
+    
+}
+
+/* First Bar Styles */
+#firstbar {
+    width: 570px;
+    height: 475px;
+    margin-left: 5px;
+    margin-right: 25px;
+    background-color: white;
+    border: solid 1px white;
+    box-shadow: 5px 5px 5px 5px gray;
+    overflow: auto; 
+    position: relative;
+    top: 2px;
+    
+
+}
+
+/* Second Bar Styles */
+#secondbar {
+    flex: 400px;
+    width: 500px;
+    height: 475px;
+    background-color: white;
+    border: solid 1px white;
+    box-shadow: 5px 5px 5px 5px gray;
+    position: relative;
+    bottom: 475px;
+    left: 590px
+}
+
+/* Flexbox Layout for Box Arrangement */
+.all_box {
+    display: flex;
+}
+
+/* Container Styles */
+.container {
+    display: flex;
+    
+}
+
+
+
+
+#ME_CP, #Total_Cost, #COST_25kg{
+    width: 150px;
+    height: 70px;
+    background-color: linear-gradient(90deg, #1c7c7d, #39b2a8)";  
+    padding 10px 20px;        
+    border-radius: 8px;        
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
+    
+}
+
+#ME_CP p, #Total_Cost p, #COST_25kg p{
+    font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;       
+    text-align: center;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+
+#chicken_id {
+    width: 70px;
+    height: 70px;
+    position: absolute; /* Position the image absolutely */
+    top: 10px; /* Adjust the top position */
+    left: 400px; /* Adjust the left position */
+    z-index: 1000; /* Ensure the image stays on top of other elements */
+}
+
+.KPI {
+    display: flex;
+    margin-left: 10px;
+    position: relative;
+    bottom: 75px;
+    left: 470px;
+    z-index: 1; /* Set lower z-index to stay beneath the image */
+}
