@@ -4,4 +4,4 @@ pandas==2.2.2
 gunicorn
 dash-tools
 docopt==0.6.2
-setuptools
+setuptools>=58.0.0  
