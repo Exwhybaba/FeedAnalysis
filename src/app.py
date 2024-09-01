@@ -6,57 +6,66 @@ from dash import dcc, html
 import random
 import string
 from datetime import datetime
+from index import dfx, df, bird_requirement_data, vitamins_minerals_data,columns
 
-# Load data
-path = r"C:\Users\HomePC\Documents\HTMLcSS\Nutrition\Data\ingredient.csv"
-dfx = pd.read_csv(path)
-dfx.drop(columns="PRICE/KG", inplace=True)
 
-# Define columns, with Quantity right after INGREDIENT
-columns = [
-    'INGREDIENT', 'QUANTITY', 'PRICE/KG', 'QUANTITY PRICE', 'DRY MATTER', 'CP', 'FAT', 'FIBRE', 'CAL.', 'PHOS.TOTAL',
-    'AVAIL PHOS', 'ME/POULT', 'ME/SWINE', 'METH', 'CYSTINE', 'METH+CYST',
-    'LYSINE', 'TRYPTOPHAN', 'THREONINE', 'VIT A IU/GM', 'VIT D3 IU/GM',
-    'VIT E IU/GM', 'RIBOFLAVIN', 'PANTO ACID', 'CHOLINE', 'B 12', 'NIACIN',
-    'XANTHOPYL', 'SALT', 'SODIUM', 'POTASSIUM', 'MAGNESIUM', 'SULPHUR',
-    'MANGANESE', 'IRON', 'COPPER', 'ZINC', 'SELENIUM', 'IODINE', 'LINOLEIC A'
-]
-
-df = pd.DataFrame(columns=columns)
-
-#requirement
-data = [
-    {'TYPE OF BIRD': 'BROILERS', 'AGE': '0 - 4WKS', 'ME/CP(LB)': 61, 'ME/CP(KG)': 134.81, 'ME': 2950, 'CP': 22, 'ME/CP': 134.0909091},
-    {'TYPE OF BIRD': 'BROILERS', 'AGE': '5 - 10WKS', 'ME/CP(LB)': 70, 'ME/CP(KG)': 154.7, 'ME': 3000, 'CP': 19.5, 'ME/CP': 153.8461538},
-    {'TYPE OF BIRD': 'CHICKS', 'AGE': '0 - 5WKS', 'ME/CP(LB)': 67, 'ME/CP(KG)': 148.07, 'ME': 2850, 'CP': 21.5, 'ME/CP': 132.5581395},
-    {'TYPE OF BIRD': 'GROWING', 'AGE': '6 - 22WKS', 'ME/CP(LB)': 90, 'ME/CP(KG)': 198.9, 'ME': 2750, 'CP': 14.5, 'ME/CP': 189.6551724},
-    {'TYPE OF BIRD': 'LAYING & BREEDING', 'AGE': '50% PROD.', 'ME/CP(LB)': 91, 'ME/CP(KG)': 201.11, 'ME': 2750, 'CP': 15, 'ME/CP': 183.3333333},
-    {'TYPE OF BIRD': 'LAYING & BREEDING', 'AGE': '60% PROD.', 'ME/CP(LB)': 86, 'ME/CP(KG)': 190.06, 'ME': 2800, 'CP': 16.5, 'ME/CP': 169.6969697},
-    {'TYPE OF BIRD': 'LAYING & BREEDING', 'AGE': '70% PROD.', 'ME/CP(LB)': 81, 'ME/CP(KG)': 179.01, 'ME': 2700, 'CP': 15.08, 'ME/CP': 179.0450928},
-    {'TYPE OF BIRD': 'LAYING & BREEDING', 'AGE': '80% PROD.', 'ME/CP(LB)': 76, 'ME/CP(KG)': 167.96, 'ME': 2550, 'CP': 16.5, 'ME/CP': 154.5454545},
-    {'TYPE OF BIRD': 'LAYING & BREEDING', 'AGE': '90% PROD.', 'ME/CP(LB)': 70, 'ME/CP(KG)': 154.7, 'ME': 2550, 'CP': 16.5, 'ME/CP': 154.5454545}
-]
 
 # Initialize Dash app
-app = dash.Dash(__name__, meta_tags=[{"name": "viewport", "content": "width=device-width"}])
+app = dash.Dash(__name__, meta_tags=[{"name": "viewport", "content": "width=device-width", 
+                        "initial-scale":"1.0"}])
 server = app.server
 app.layout = html.Div(children=[
     html.Div(children=[
         html.Div(id="sidebar", children=[
             dcc.Dropdown(
+                id='stages_dd',
+                options=[
+                    {'label': 'Pre-starter', 'value': 'Pre-starter'},
+                    {'label': 'Starter', 'value': 'Starter'},
+                    {'label': 'Finisher', 'value': 'Finisher'},
+                
+                ], value = None, placeholder='Select Feed Phase',
+                style={"position": "relative", "top": "2px"}
+            ),
+
+            dcc.Input(id= "nBird", type= "number", debounce= False, 
+                      placeholder= "Number of birds...",
+                      style={"position": "relative", "top": "50px", "width": "90%"}
+                      ),
+
+            dcc.RadioItems(
+                        id='table-toggle',
+                        options=[
+                            {'label': 'Bird Requirement', 'value': 'bird'},
+                            {'label': 'Vitamins & Micro Minerals', 'value': 'vitamins'}
+                        ],
+                        value='bird',  
+                        style={'margin': '10px',"position": "relative", "top": "70px"}
+                    ),
+
+
+            dcc.Dropdown(
                 id='ingredient_dd',
                 options=[{'label': ingredient, 'value': ingredient} for ingredient in dfx['INGREDIENT'].unique()],
                 multi=True, placeholder="Select ingredients...",
-                #style={
-                    #'maxHeight': '500px',  # Set the maximum height of the dropdown
-                    #'overflowY': 'auto',   # Enable vertical scroll
-    #}
-            ),
-        ], className="sidebox"),
+                optionHeight= 35,
+                searchable= True,
+                clearable= True,
+                className='custom-dropdown',
+                style={
+                    "margin": "auto",
+                    "position": "relative", 
+                    "top": "100px",
+                    "maxHeight": "400px",  # Limit dropdown height
+                    "overflowY": "auto"    # Enable vertical scrolling
+                }   
+            )
+                        ], className="sidebox"),
 
         html.Div(children=[
             html.Div(id="topbar", children= [
-                html.Label("FEED ANALYSIS", 
+                html.Div(children = [
+                    html.Label("Feedeyes")], className="feed-anlysis", 
                            style={
                                 "font-size": "36px",           
                                 "fontWeight": "bold",          
@@ -71,44 +80,61 @@ app.layout = html.Div(children=[
                                 "text-align": "center",        
                                 "display": "inline-block",
                             }),
-                html.Div(children = [
+                    html.Div(children = [
 
-                        html.Div(id= "ME_CP", children=[
-                            html.P(html.B("ME/CP(KG)")),
-                                html.P(html.B("0"))
-                            ], style={"font-size": "12px", 
-                                    "margin-top": "5px",
-                                    "position": "relative",
-                                    "top": "10px"}),
+                            html.Div(id= "ME_CP", children=[
+                                html.P(html.B("ME/CP(KG)")),
+                                    html.P(html.B("0"))
+                                ], style={"font-size": "12px", 
+                                        "margin-top": "5px",
+                                        "position": "relative",
+                                        "top": "10px"}),
                         
 
-                        html.Div(id = "Total_Cost",
-                            children=[
-                                html.P(html.B("TOTAL COST")),
-                                html.P(html.B("0"))
-                            ], style={"font-size": "12px", 
-                                    "margin-top": "5px",
-                                    "position": "relative",
-                                    "top": "10px"}),
+                            html.Div(id = "Total_Cost",
+                                children=[
+                                    html.P(html.B("TOTAL COST")),
+                                    html.P(html.B("0"))
+                                ], style={"font-size": "12px", 
+                                        "margin-top": "5px",
+                                        "position": "relative",
+                                        "top": "10px"}),
 
-                        html.Div(id= "COST_25kg", children=[
-                            html.P(html.B("COST/25kg BAG")),
-                                html.P(html.B("0"))
-                            ], style={"font-size": "12px", 
-                                    "margin-top": "5px",
-                                    "position": "relative",
-                                    "top": "10px"}),
+                            html.Div(id= "COST_25kg", children=[
+                                html.P(html.B("COST/25kg")),
+                                    html.P(html.B("0"))
+                                ], style={"font-size": "12px", 
+                                        "margin-top": "5px",
+                                        "position": "relative",
+                                        "top": "10px"}),
 
-                        html.Div(id= "chicken_id", children=[
-                            html.Img(src="assets/chickenFeed.png", style={"width":'160px',
-                                                                       "height":"120px", 
-                                                                       "position": "relative",
-                                                                       "left": "40px"})
-                        ])
-                        
+                        html.Div([
+                                dcc.Store(id='feedNeed_store'),  
+                                html.Div(
+                                    id="Feed_req", 
+                                    children=[
+                                        html.P(html.B("Feed Req.", style={"font-size": "10px", "margin-right": "2px"})),
+                                        html.P(html.B("0", style={"font-size": "9px", "position": "relative", 'top': '10px', "margin-right": "2px", "margin-left": "2px"})),
+                                        html.P("#", style={"font-size": "9px", "position": "relative", 'top': '10px', "margin-left": "2px"})
+                                    ], 
+                                    style={
+                                        "margin-top": "5px",
+                                        "position": "relative",
+                                        "top": "3px"
+                                    }
+                                )
+                            ])
+,
+                                
 
+                            html.Div(id= "chicken_id", children=[
+                                html.Img(src="assets/chickenFeed.png", style={"width":'160px',
+                                                                        "height":"120px", 
+                                                                        "position": "relative",
+                                                                        "left": "40px"})
+                            ])
                             ], className= 'KPI')
-            ]),
+                    ], className= 'parent-Top'),
 
 
             html.Div(children=[
@@ -116,7 +142,15 @@ app.layout = html.Div(children=[
                     id="firstbar", children=[
                         dash_table.DataTable(
                             id='ingredient_table',
-                            columns=[{'name': col, 'id': col, 'editable': col in ['QUANTITY', 'PRICE/KG']} for col in columns],
+                            columns=[
+                                    {
+                                    'name': 'QTY(100KG)' if col == 'QUANTITY' else 'PRICE' if col == 'QUANTITY PRICE' else col, 
+                                    'id': col, 
+                                    'editable': col in ['QUANTITY', 'PRICE/KG']
+                                }
+                                for col in columns
+                            ],
+
                             data=[],  # Initially empty
                             style_table={
                                 'overflowY': 'auto',  # Enable vertical scroll
@@ -137,60 +171,78 @@ app.layout = html.Div(children=[
                             },
                             page_current=0,  # Start on the first page
                             page_size=6,     # Six rows per page
-                            page_action="native",  # Native pagination mode
+                            page_action="native",  
                             style_header={
                                 'backgroundColor': 'lightgrey',
                                 'fontWeight': 'bold'
                             }
                         ),
-                        #baseTable
-                        html.Div(children=[
 
-                            html.Div(children=[
-                                dash_table.DataTable(
-        columns=[
-            {"name": "TYPE OF BIRD", "id": "TYPE OF BIRD", "type": "text"},
-            {"name": "AGE", "id": "AGE", "type": "text"},
-            {"name": "ME/CP(LB)", "id": "ME/CP(LB)", "type": "numeric"},
-            {"name": "ME/CP(KG)", "id": "ME/CP(KG)", "type": "numeric"},
-            {"name": "ME", "id": "ME", "type": "numeric"},
-            {"name": "CP", "id": "CP", "type": "numeric"},
-            {"name": "ME/CP", "id": "ME/CP", "type": "numeric"}
-        ],
-        data=data,
-        style_cell={'textAlign': 'center', 'fontFamily': 'Arial',
-                     'fontSize': 14, 'minWidth': '100px', 'width': '100px', 'maxWidth': '100px'},
-        style_header={
-            'backgroundColor': 'black',
-            'fontWeight': 'bold',
-            'color': 'white',
-            'textAlign': 'center'
-        },
-        style_data_conditional=[
-            {
-                'if': {'column_id': 'ME/CP(LB)'},
-                'color': 'blue',
-                'fontWeight': 'bold'
-            },
-            {
-                'if': {'column_id': 'TYPE OF BIRD'},
-                'color': 'red',
-                'fontWeight': 'bold'
-            }
-        ],
-        style_table={'height': '300px', 'overflowY': 'auto', 'overflowX': 'auto'},
-        fixed_rows={'headers': True},
-        filter_action="native",
-        sort_action="native",
-        row_deletable=True,
-        page_size=6,
-        page_current=0,
-    )
-                            ],style = {'position': 'relative', 'top': '60px'})
+                        html.Div(id='table-container', children=[
+                html.Div(id='bird-requirement-table', children=[
+                    html.H1("Bird Requirement", style={'textAlign': 'center'}),  # Fixed here
+                    dash_table.DataTable(
+                        columns=[
+                            {"name": "TYPE OF BIRD", "id": "TYPE OF BIRD", "type": "text"},
+                            {"name": "AGE", "id": "AGE", "type": "text"},
+                            {"name": "ME/CP(LB)", "id": "ME/CP(LB)", "type": "numeric"},
+                            {"name": "ME/CP(KG)", "id": "ME/CP(KG)", "type": "numeric"},
+                            {"name": "ME", "id": "ME", "type": "numeric"},
+                            {"name": "CP", "id": "CP", "type": "numeric"},
+                            {"name": "ME/CP", "id": "ME/CP", "type": "numeric"}
+                        ],
+                        data=bird_requirement_data,
+                        style_cell={'textAlign': 'center', 'fontFamily': 'Arial', 'fontSize': 14, 
+                                    'minWidth': '100px', 'width': '100px', 'maxWidth': '100px'},
+                        style_header={'backgroundColor': 'black', 'fontWeight': 'bold', 
+                                    'color': 'white', 'textAlign': 'center'},
+                        style_data_conditional=[
+                            {'if': {'column_id': 'ME/CP(LB)'}, 'color': 'blue', 'fontWeight': 'bold'},
+                            {'if': {'column_id': 'TYPE OF BIRD'}, 'color': 'red', 'fontWeight': 'bold'}
+                        ],
+                        style_table={'height': '300px', 'overflowY': 'auto', 'overflowX': 'auto'},
+                        fixed_rows={'headers': True},
+                        filter_action="native",
+                        sort_action="native",
+                        row_deletable=True,
+                        page_size=6,
+                        page_current=0
+                    )
+                ], style={'display': 'block'}),
 
-                        ],className= "arrangeBaseTable")
-                    ]
-                ),
+                html.Div(id='vitamins-minerals-table-container', children=[
+                    html.H1("Vits. & Mins. Requirement"),
+                    dash_table.DataTable(
+                        id='vitamins-minerals-table',
+                        columns=[
+                            {"name": "Category", "id": "Category"},
+                            {"name": "Name", "id": "Name"},
+                            {"name": "Source", "id": "Source"},
+                            {"name": "Potency (Min)", "id": "Potency (Min)"},
+                        ],
+                        data=vitamins_minerals_data,
+                        filter_action="native",
+                        sort_action="native",
+                        page_size=10,
+                        style_header={'backgroundColor': 'black', 'fontWeight': 'bold', 
+                                    'color': 'white', 'textAlign': 'center'},
+                        style_cell={'textAlign': 'center', 'fontFamily': 'Arial', 
+                                    'fontSize': 14, 'minWidth': '100px',
+                                    'width': '100px', 'maxWidth': '100px'},
+                        style_data_conditional=[
+                            {'if': {'column_id': 'Name'}, 'color': 'blue', 'fontWeight': 'bold'},
+                            {'if': {'column_id': "Potency (Min)"}, 'color': 'red', 'fontWeight': 'bold'}
+                        ],
+                        style_data={
+                            'whiteSpace': 'normal',
+                            'height': 'auto',
+                        },
+                        style_table={'overflowX': 'auto'}
+                    )
+                ], style={'display': 'none'})  # Hidden by default
+            ])
+                                    
+                                                ]),
 
                 html.Div(
                     id="secondbar",
@@ -201,16 +253,24 @@ app.layout = html.Div(children=[
                         'border': '1px solid #ddd',
                         'boxSizing': 'border-box',
                     },
+
+                    
                     children=[
                         # Date and Time
                         html.Div(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", style={'fontWeight': 'bold', 'marginBottom': '10px'}),
+
+
+                        # Company Name Input
+                        html.Div([
+                            html.Label("Company Name:", style={'fontWeight': 'bold'}),
+                            dcc.Input(id='Company_name', type='text', placeholder='Enter Company name', style={'marginLeft': '10px'})
+                        ], style={'marginBottom': '10px'}),
 
                         # Feed Name Input
                         html.Div([
                             html.Label("Feed Name:", style={'fontWeight': 'bold'}),
                             dcc.Input(id='feed_name', type='text', placeholder='Enter feed name', style={'marginLeft': '10px'})
                         ], style={'marginBottom': '10px'}),
-
 
                         # Feed Code Display
                         html.Div([
@@ -286,6 +346,52 @@ def hide_print_button(n_clicks):
     return {}
 
 @app.callback(
+    [Output('bird-requirement-table', 'style'),
+     Output('vitamins-minerals-table-container', 'style')],
+    [Input('table-toggle', 'value')]
+)
+def toggle_tables(selected_value):
+    if selected_value == 'bird':
+        return {'display': 'block'}, {'display': 'none'}
+    elif selected_value == 'vitamins':
+        return {'display': 'none'}, {'display': 'block'}
+    
+
+@app.callback(
+    [Output('Feed_req', 'children'),
+     Output('feedNeed_store', 'data')],
+    [Input('stages_dd', 'value'),
+     Input('nBird', 'value')]
+)
+    
+def feedRequired(stages, n_bird): 
+    if n_bird is None:
+        feedNeeded = 0
+        reqDay = ''
+    else:
+        if stages == "Pre-starter":
+            feedNeeded = 0.2 * n_bird
+            reqDay = 'Day 0-7'
+        elif stages == 'Starter':  
+            feedNeeded = 1 * n_bird
+            reqDay = 'Day 8-21'
+        elif stages == 'Finisher':  
+            feedNeeded = 2.8 * n_bird
+            reqDay = 'Day 22-42'
+        else:
+            feedNeeded = 0 
+            reqDay = '' 
+
+    feedRequiredDisplay = [
+        html.P(html.B("Feed Req.")),
+        html.P(html.B(f"{round(feedNeeded, 2)} KG", style={"font-size": "13px", "position": "relative", 'bottom': '15px', "margin-right": "2px", "margin-left": "2px"})),
+        html.P(html.I(reqDay, style={"font-size": "11px", "position": "relative", 'bottom': '30px', "margin-right": "2px", "margin-left": "2px"}))
+    ]
+    return feedRequiredDisplay, feedNeeded
+
+
+
+@app.callback(
     [Output('ingredient_table', 'data'),
      Output('report_table', 'data'),
      Output('nutrient_table', 'data'),
@@ -293,10 +399,11 @@ def hide_print_button(n_clicks):
      Output('Total_Cost', 'children'),
      Output('COST_25kg', 'children')],
     [Input('ingredient_dd', 'value'),
-     Input('ingredient_table', 'data_timestamp')],
+     Input('ingredient_table', 'data_timestamp'),
+     Input('feedNeed_store', 'data')],
     [State('ingredient_table', 'data')]
 )
-def update_table(selected_ingredients, _, current_data):
+def update_table(selected_ingredients, _, feedNeed, current_data):
     # Initialize DataFrame with current data
     if current_data:
         df_output = pd.DataFrame(current_data)
@@ -334,7 +441,7 @@ def update_table(selected_ingredients, _, current_data):
             if quantity > 0:
                 for col in columns[2:]:
                     if col in df_output.columns and col in ing_values.index:
-                        df_output.at[i, col] = (ing_values[col] / 100) * quantity
+                        df_output.at[i, col] = (ing_values[col] / 100) * quantity 
                 df_output.at[i, 'QUANTITY PRICE'] = quantity * price_per_kg
             else:
                 for col in columns[2:]:
@@ -382,15 +489,20 @@ def update_table(selected_ingredients, _, current_data):
     # Prepare the report table data
     report_data = df_output[['INGREDIENT', 'PRICE/KG', 'QUANTITY', 'QUANTITY PRICE']].to_dict('records')
 
-    # Calculate total AMOUNT in the report table
+    # Adjust the report table quantity using feedNeed
     for item in report_data:
+        if item['INGREDIENT'] != 'Total' and item['QUANTITY']:
+            item['QUANTITY'] = (item['QUANTITY'] / 100) * feedNeed
         item['AMOUNT'] = item['QUANTITY'] * item['PRICE/KG'] if item['QUANTITY'] and item['PRICE/KG'] else 0
+
+    # Calculate the total amount based on the adjusted quantities
     total_amount = sum(item['AMOUNT'] for item in report_data if item['INGREDIENT'] != 'Total')
+    total_quantity_report = sum(item['QUANTITY'] for item in report_data if item['INGREDIENT'] != 'Total')
 
     # Set the correct total row values for the report table
     for row in report_data:
         if row['INGREDIENT'] == 'Total':
-            row['QUANTITY'] = total_quantity
+            row['QUANTITY'] = total_quantity_report
             row['QUANTITY PRICE'] = total_quantity_price
             row['AMOUNT'] = total_amount  # Sum of all individual amounts
             break
@@ -398,7 +510,7 @@ def update_table(selected_ingredients, _, current_data):
         report_data.append({
             'INGREDIENT': 'Total',
             'PRICE/KG': '',
-            'QUANTITY': total_quantity,
+            'QUANTITY': total_quantity_report,
             'QUANTITY PRICE': total_quantity_price,
             'AMOUNT': total_amount  # Add total amount
         })
@@ -416,11 +528,8 @@ def update_table(selected_ingredients, _, current_data):
             report_data,
             nutrient_data,
             [html.P(html.B("ME/CP(KG)")), html.P(html.B(f"{me_cp_value:.2f}"))],  # Update ME/CP
-            [html.P(html.B("TOTAL COST")), html.P(html.B(f"{total_quantity_price:.2f}"))],  # Update Total Cost
-            [html.P(html.B("COST/25kg BAG")), html.P(html.B(f"{cost_25kg:.2f}"))])  # Update COST/25kg
-
-
-
+            [html.P(html.B("TOTAL COST")), html.P(html.B(f"{total_amount:.2f}"))],  # Update Total Cost
+            [html.P(html.B("COST/25kg")), html.P(html.B(f"{cost_25kg:.2f}"))])  # Update COST/25kg
 
 
 if __name__ == '__main__':
