@@ -3,3 +3,4 @@ dash_table==5.0.0
 pandas==2.2.2
 gunicorn
 dash-tools
+docopt==0.6.2
