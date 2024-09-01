@@ -3,5 +3,5 @@ dash_table==5.0.0
 pandas==2.2.2
 gunicorn
 dash-tools
-docopt==0.6.2
-setuptools>=58.0.0  
+setuptools==57.5.0
+
