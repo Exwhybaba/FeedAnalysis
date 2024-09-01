@@ -8,8 +8,8 @@ import string
 from datetime import datetime
 
 # Load data
-path = r"C:\Users\HomePC\Documents\HTMLcSS\Nutrition\Data\ingredient.csv"
-dfx = pd.read_csv(path)
+url = 'https://raw.githubusercontent.com/Exwhybaba/FeedAnalysis/main/Data/ingredient.csv'
+dfx = pd.read_csv(url)
 dfx.drop(columns="PRICE/KG", inplace=True)
 
 # Define columns, with Quantity right after INGREDIENT
