@@ -127,14 +127,14 @@ app.layout = html.Div(children=[
 ,
                                 
 
-                            html.Div(id= "chicken_id", children=[
+                            html.Div(id="chicken_id", children=[
                                 html.Img(src="assets/chickenFeed.png", style={"width":'160px',
                                                                         "height":"120px", 
                                                                         "position": "relative",
                                                                         "left": "40px"})
-                            ])
+                            ], className='chicken__id')
                             ], className= 'KPI')
-                    ], className= 'parent-Top'),
+                    ], className='parent-Top'),
 
 
             html.Div(children=[

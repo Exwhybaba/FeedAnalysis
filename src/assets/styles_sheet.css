@@ -1,206 +1,174 @@
 /* General Body Styles */
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: rgb(230, 224, 224);
-    margin: 0; /* Ensure no default margin is applied */
-    padding: 0; /* Ensure no default padding is applied */
-    box-sizing: border-box;
-    
-    
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgb(230, 224, 224);
+  margin: 0;
+  /* Ensure no default margin is applied */
+  padding: 0;
+  /* Ensure no default padding is applied */
+  box-sizing: border-box;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
+.container {
+  padding: 10px;
+  width: 100vw;
+}
+
+.all_box {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  border: 2px solid black;
+  gap: 20px;
+}
 
 /* Top Bar Styles */
 #topbar {
-    background-color: lightseagreen;
-    width: 100%; 
-    height: 90px;
-    border: solid 1px white;
-    box-shadow: 5px 5px 5px 5px gray;
-    margin-bottom: 10px; 
-    position: relative;
-    left: 5px;
+  background-color: lightseagreen;
+  width: 100%;
+  height: 90px;
+  border: solid 1px white;
+  box-shadow: 5px 5px 5px 5px gray;
+  margin-bottom: 10px;
+  position: relative;
+  left: 5px;
 }
 
 /* Sidebar Styles */
 #sidebar {
-    flex: 0 0 145px;
+  grid-column: span 1 / span 1;
+  width: 100%;
+  max-height: 200px;
+  /* flex: 0 0 145px;
     width: 100%;
     max-width: 145px;
     margin-left: 0px;
     height: 575px;
-    background-color: white;
+    background-color: yellow;
     border: solid 1px white;
-    box-shadow: 5px 5px 5px 5px gray;
-    
+    box-shadow: 5px 5px 5px 5px gray; */
 }
 
 /* First Bar Styles */
 #firstbar {
-    width: 550px;
-    height: 475px;
-    margin-left: 5px;
-    margin-right: 25px;
-    background-color: white;
-    border: solid 1px white;
-    box-shadow: 5px 5px 5px 5px gray;
-    overflow: auto; 
-
+  width: 550px;
+  height: 475px;
+  margin-left: 5px;
+  margin-right: 25px;
+  background-color: white;
+  border: solid 1px white;
+  box-shadow: 5px 5px 5px 5px gray;
+  overflow: auto;
 }
 
 /* Second Bar Styles */
 #secondbar {
-    width: 410px;
-    height: 475px;
-    background-color: white;
-    border: solid 1px white;
-    box-shadow: 5px 5px 5px 5px gray;
+  width: 410px;
+  height: 475px;
+  background-color: white;
+  border: solid 1px white;
+  box-shadow: 5px 5px 5px 5px gray;
 }
 
-.rectangle{
-    display: flex;
+.rectangle {
+  display: flex;
 }
+
 /* Flexbox Layout for Box Arrangement */
-.all_box {
+/* .all_box {
     display: flex;
+} */
+
+#ME_CP,
+#Total_Cost,
+#COST_25kg,
+#Feed_req {
+  width: 125px;
+  height: 70px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(32, 115, 96, 0.4);
+  margin-left: 10px;
 }
 
-
-
-
-
-
-#ME_CP, #Total_Cost, #COST_25kg, #Feed_req{
-    width: 125px;
-    height: 70px;
-    background-color: #F8F9FA;      
-    border-radius: 8px;        
-    box-shadow: 0px 4px 6px rgba(32, 115, 96, 0.4);
-    margin-left: 10px;
-    
+#ME_CP p,
+#Total_Cost p,
+#COST_25kg p,
+#Feed_req p {
+  font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  color: #333;
+  font-weight: bold;
+  font-size: 14px;
 }
-
-#ME_CP p, #Total_Cost p, #COST_25kg p, #Feed_req p{
-    font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 2px;       
-    text-align: center;
-    color: #333;
-    font-weight: bold;
-    font-size: 14px;
-}
-
 
 #chicken_id {
-    width: 70px;
-    height: 70px;
-    position: absolute; /* Position the image absolutely */
-    top: 10px; /* Adjust the top position */
-    left: 450px; /* Adjust the left position */
-    z-index: 1000; /* Ensure the image stays on top of other elements */
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  /* Position the image absolutely */
+  top: 10px;
+  /* Adjust the top position */
+  left: 450px;
+  /* Adjust the left position */
+  z-index: 1000;
+  /* Ensure the image stays on top of other elements */
 }
 
 .KPI {
-    display: flex;
-    margin-left: 10px;
-    position: relative;
-    bottom: 75px;
-    left: 348px;
-    z-index: 1; /* Set lower z-index to stay beneath the image */
+  display: flex;
+  margin-left: 10px;
+  position: relative;
+  bottom: 75px;
+  left: 348px;
+  z-index: 1;
+  /* Set lower z-index to stay beneath the image */
 }
 
 /* Container Styles */
-.container {
-    position: relative;
-    display: flex;
-    flex-direction: column; /* Stack elements vertically on small screens */
-    width: 100%;
-    max-width: 1024px;
-    max-height: 600px;
-    margin-right: 0;
+
+/* responsiveness */
+@media (min-width: 768px) {
+  .main {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
-
-
-
-/* Media Queries for Small Devices */
-@media (max-width: 768px) {
-    .rectangle {
-        display: block;
-    }
-
-    #firstbar, #secondbar {
-        width: 100%; /* Make bars take full width */
-        height: auto; /* Adjust height to fit content */
-        margin: 5px 0; /* Adjust margins */
-    }
-    
-    #topbar {
-        height: 200px; /* Set height for topbar */
-        width: 100%;
-    }
-
-    #sidebar {
-        flex: 0 0 145px;
-        width: 100%;
-        height: 768px; /* Set height for sidebar */
-        box-sizing: border-box; /* Ensure padding and borders are included in the height */
-    }
-
-    /* Ensure combined height of #firstbar and #secondbar does not exceed 768px */
-    .rectangle {
-        display: flex;
-        flex-direction: column;
-        height: calc(768px - 200px); /* Subtract height of topbar */
-        box-sizing: border-box;
-    }
-
-    #firstbar {
-        flex: 1 1 auto; /* Allow height to adjust within the container */
-        overflow: auto; /* Ensure content can scroll if needed */
-    }
-
-    #secondbar {
-        flex: 1 1 auto; /* Allow height to adjust within the container */
-        overflow: auto; /* Ensure content can scroll if needed */
-    }
-
-    #ME_CP, #Total_Cost, #COST_25kg, #Feed_req {
-        margin-bottom: 10px; /* Space between rows */
-        background-color: hsl(210, 17%, 98%);
-        border-radius: 8px;
-        box-shadow: 0px 4px 6px rgba(32, 115, 96, 0.4);
-    }
-
-    .KPI {
-        display: inline-flex;
-        flex-wrap: wrap; /* Allow wrapping to create rows */
-        margin-left: 0px;
-        
-    }
-    
-
-
-    #ME_CP p, #Total_Cost p, #COST_25kg p, #Feed_req p {
-        font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
-        text-transform: uppercase;
-        text-align: center;
-        color: #333;
-        font-weight: bold;
-        font-size: 9px;
-    }
-
-    #chicken_id{
-        position: relative;
-        bottom: 50px;
-        left: -55px;
-        
-    }
-   
+@media (min-width: 1024px) {
+  .container {
+    padding: 20px;
+  }
+  #sidebar {
+    grid-column: span 2 / span 2;
+  }
+  .all_box {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  #topbar {
+    width: 100%;
+    border: 2px solid red;
+  }
+  .box_arrange {
+    grid-column: span 5 / span 5;
+    width: 100%;
+    border: 2px solid red;
+  }
+  .KPI {
+    border: 1px solid black;
+  }
+  .chicken__id {
+    border: 1px solid blue;
+  }
+  .parent-Top {
+    border: 2px solid orange;
+  }
 }
