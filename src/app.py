@@ -7,11 +7,17 @@ import random
 import string
 from datetime import datetime
 from index import dfx, df, bird_requirement_data, vitamins_minerals_data,columns
+import dash_auth
 
+
+USER_PASS_MAPPING = {
+    "admin1": "admin12345",
+    "admin2": "@admin12345"
+}
 
 
 # Initialize Dash app
-app = dash.Dash(__name__, meta_tags=[{"name": "viewport", "content": "width=device-width", 
+app = dash.Dash(title= "feedeyes", meta_tags=[{"name": "viewport", "content": "width=device-width", 
                         "initial-scale":"1.0"}])
 server = app.server
 app.layout = html.Div(children=[
