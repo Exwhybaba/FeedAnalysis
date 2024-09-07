@@ -19,6 +19,7 @@ USER_PASS_MAPPING = {
 # Initialize Dash app
 app = dash.Dash(title= "feedeyes", meta_tags=[{"name": "viewport", "content": "width=device-width", 
                         "initial-scale":"1.0"}])
+auth = dash_auth.BasicAuth(app, USER_PASS_MAPPING)
 server = app.server
 app.layout = html.Div(children=[
     html.Div(children=[
