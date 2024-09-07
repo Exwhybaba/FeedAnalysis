@@ -4,4 +4,6 @@ pandas==2.2.2
 gunicorn
 dash-tools
 setuptools==57.5.0
+dash-auth
+
 
