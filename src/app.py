@@ -8,20 +8,21 @@ import string
 from datetime import datetime
 from index import dfx, df, bird_requirement_data, vitamins_minerals_data,columns
 import dash_auth
+from flask_cors import CORS
+from flask import Flask
 
 
-USER_PASS_MAPPING = {
-    "admin1": "admin12345",
-    "admin2": "@admin12345"
-}
 
 
+# Initialize Flask app and enable CORS
+app = Flask(__name__)
+CORS(app)
 # Initialize Dash app
-app = dash.Dash(title= "feedeyes", meta_tags=[{"name": "viewport", "content": "width=device-width", 
+dash_app = dash.Dash(title= "feedeyes", meta_tags=[{"name": "viewport", "content": "width=device-width", 
                         "initial-scale":"1.0"}])
-auth = dash_auth.BasicAuth(app, USER_PASS_MAPPING)
-server = app.server
-app.layout = html.Div(children=[
+auth = dash_auth.BasicAuth(dash_app, [['admin1', 'admin12345']])
+server = dash_app.server
+dash_app.layout = html.Div(children=[
     html.Div(children=[
         html.Div(id="sidebar", children=[
             dcc.Dropdown(
