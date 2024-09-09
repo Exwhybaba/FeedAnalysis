@@ -15,14 +15,14 @@ from flask import Flask
 
 
 # Initialize Flask app and enable CORS
-app = Flask(__name__)
-CORS(app)
+flask_app = Flask(__name__)
+CORS(flask_app)
 # Initialize Dash app
-dash_app = dash.Dash(title= "feedeyes", meta_tags=[{"name": "viewport", "content": "width=device-width", 
+app = dash.Dash(title= "feedeyes", meta_tags=[{"name": "viewport", "content": "width=device-width", 
                         "initial-scale":"1.0"}])
-auth = dash_auth.BasicAuth(dash_app, [['admin1', 'admin12345']])
-server = dash_app.server
-dash_app.layout = html.Div(children=[
+auth = dash_auth.BasicAuth(app, [['admin1', 'admin12345']])
+server = app.server
+app.layout = html.Div(children=[
     html.Div(children=[
         html.Div(id="sidebar", children=[
             dcc.Dropdown(
