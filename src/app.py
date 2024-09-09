@@ -24,13 +24,11 @@ app.layout = html.Div(children=[
                     {'label': 'Starter', 'value': 'Starter'},
                     {'label': 'Finisher', 'value': 'Finisher'},
                 
-                ], value = None, placeholder='Select Feed Phase',
-                style={"position": "relative", "top": "2px"}
+                ], value = None, placeholder='Select Feed Phase', className='select'
             ),
 
-            dcc.Input(id= "nBird", type= "number", debounce= False, 
+            dcc.Input(id="nBird", type="number", debounce= False, 
                       placeholder= "Number of birds...",
-                      style={"position": "relative", "top": "50px", "width": "90%"}
                       ),
 
             dcc.RadioItems(
@@ -40,7 +38,6 @@ app.layout = html.Div(children=[
                             {'label': 'Vitamins & Micro Minerals', 'value': 'vitamins'}
                         ],
                         value='bird',  
-                        style={'margin': '10px',"position": "relative", "top": "70px"}
                     ),
 
 
@@ -52,86 +49,51 @@ app.layout = html.Div(children=[
                 searchable= True,
                 clearable= True,
                 className='custom-dropdown',
-                style={
-                    "margin": "auto",
-                    "position": "relative", 
-                    "top": "100px",
-                    "maxHeight": "400px",  # Limit dropdown height
-                    "overflowY": "auto"    # Enable vertical scrolling
-                }   
+           
             )
                         ], className="sidebox"),
 
         html.Div(children=[
             html.Div(id="topbar", children= [
                 html.Div(children = [
-                    html.Label("Feedeyes")], className="feed-anlysis", 
-                           style={
-                                "font-size": "36px",           
-                                "fontWeight": "bold",          
-                                "color": "#ffffff",            
-                                "background": "linear-gradient(90deg, #1c7c7d, #39b2a8)",  
-                                "padding": "10px 20px",        
-                                "border-radius": "8px",        
-                                "box-shadow": "0px 4px 15px rgba(0, 0, 0, 0.1)",  
-                                "font-family": "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",  
-                                "text-transform": "uppercase", 
-                                "letter-spacing": "2px",       
-                                "text-align": "center",        
-                                "display": "inline-block",
-                            }),
+                    html.Label("Feedeyes")], className="feed-analysis", 
+),
                     html.Div(children = [
 
                             html.Div(id= "ME_CP", children=[
                                 html.P(html.B("ME/CP(KG)")),
                                     html.P(html.B("0"))
-                                ], style={"font-size": "12px", 
-                                        "margin-top": "5px",
-                                        "position": "relative",
-                                        "top": "10px"}),
+                                ], className='card'),
                         
 
                             html.Div(id = "Total_Cost",
                                 children=[
                                     html.P(html.B("TOTAL COST")),
                                     html.P(html.B("0"))
-                                ], style={"font-size": "12px", 
-                                        "margin-top": "5px",
-                                        "position": "relative",
-                                        "top": "10px"}),
+                                ], className='card'),
 
                             html.Div(id= "COST_25kg", children=[
                                 html.P(html.B("COST/25kg")),
                                     html.P(html.B("0"))
-                                ], style={"font-size": "12px", 
-                                        "margin-top": "5px",
-                                        "position": "relative",
-                                        "top": "10px"}),
+                                ], className='card'),
 
                         html.Div([
                                 dcc.Store(id='feedNeed_store'),  
                                 html.Div(
                                     id="Feed_req", 
                                     children=[
-                                        html.P(html.B("Feed Req.", style={"font-size": "10px", "margin-right": "2px"})),
-                                        html.P(html.B("0", style={"font-size": "9px", "position": "relative", 'top': '10px', "margin-right": "2px", "margin-left": "2px"})),
-                                        html.P("#", style={"font-size": "9px", "position": "relative", 'top': '10px', "margin-left": "2px"})
-                                    ], 
-                                    style={
-                                        "margin-top": "5px",
-                                        "position": "relative",
-                                        "top": "3px"
-                                    }
+                                        html.P(html.B("Feed Req.", )),
+                                        html.P(html.B("0",)),
+                                        html.P("#",)
+                                    ], className= 'card card-3'
+
                                 )
-                            ])
+                            ], )
 ,
                                 
 
-                            html.Div(id="chicken_id", children=[
-                                html.Img(src="assets/chickenFeed.png", style={"width":'160px',
-                                                                        "height":"120px", 
-                                                                        "position": "relative",
-                                                                        "left": "40px"})
+                            html.Div(children=[
+                                html.Img(src="assets/chickenFeed.png")
                             ], className='chicken__id')
                             ], className= 'KPI')
                     ], className='parent-Top'),
